@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>KISS GLAZED · Mini Donitas</title>
+<style>
+:root{--pink:#f58bb8;--blue:#69b9df;--cream:#fff8ed;--brown:#57372d;--yellow:#ffd878;--green:#86c89a}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--brown);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+button,input,select,textarea{font:inherit}.wrap{max-width:1050px;margin:auto;padding:18px}
+header{display:flex;align-items:center;gap:18px;background:#fff;border:3px solid #f3d9cf;border-radius:28px;padding:14px 18px;position:sticky;top:10px;z-index:5;box-shadow:0 8px 25px #0000000d}
+.brand{font-weight:900;font-size:25px;line-height:.9}.brand span{color:var(--blue)}nav{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}nav button,.pill{border:0;border-radius:999px;padding:10px 14px;background:#fff0f6;color:#7b3e55;font-weight:800;cursor:pointer}
+.hero{display:flex;flex-direction:column;align-items:flex-start;padding:35px 8px}.hero h1{font-size:clamp(42px,7vw,76px);line-height:.9;margin:12px 0}.hero h1 em{color:var(--pink);font-style:normal}.hero h1 strong{color:var(--blue)}.hero p{font-size:18px}.cta{background:var(--pink);color:white;border:0;border-radius:18px;padding:15px 20px;font-weight:900;cursor:pointer;box-shadow:0 7px 0 #d66b99;transition:transform 0.1s}.cta:active{transform:translateY(3px)}
+.card{background:#fff;border:3px solid #f1ded5;border-radius:26px;padding:22px;margin:18px 0}.section-title{font-size:30px;margin:0 0 16px}.boxes{display:flex;align-items:center;gap:15px}.counter{display:flex;align-items:center;gap:14px;background:#fff3f7;border-radius:18px;padding:8px}.counter button{width:42px;height:42px;border:0;border-radius:50%;background:white;font-size:25px;cursor:pointer}
+.box{border:2px dashed #e9a8c4;border-radius:22px;padding:18px;margin-top:16px;background:#fff}.box h3{margin:0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}.box-price-tag{background:#eaf7fd;color:var(--blue);padding:6px 14px;border-radius:999px;font-size:15px;font-weight:900;border:1px solid #c0e3f5}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.choices{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px;margin-top:10px}
+.choice{border:2px solid #ead9d1;background:#fff;border-radius:18px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s ease;display:flex;flex-direction:column;align-items:center;justify-content:space-between;user-select:none}.choice:hover{transform:translateY(-2px);border-color:var(--pink)}.choice.selected{background:#fff0f6;border-color:var(--pink);box-shadow:0 6px 15px #f58bb833}.choice-img{width:48px;height:48px;margin-bottom:6px;display:flex;align-items:center;justify-content:center}.choice-img svg,.choice-img img{width:100%;height:100%;object-fit:contain}.choice-name{font-size:12px;font-weight:800;margin-bottom:6px;color:#57372d;line-height:1.2}.qtyrow{display:flex;align-items:center;gap:6px;background:#f8edf1;border-radius:20px;padding:2px 6px}.qtyrow button{border:0;background:white;border-radius:50%;width:26px;height:26px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 4px #00000010}.qtyrow button:active{transform:scale(0.9)}
+.extra-toggle-wrap{background:#fff8eb;border:2px solid #ffe3b3;border-radius:16px;padding:12px 16px;margin:14px 0;display:flex;flex-direction:column;gap:10px}.extra-toggle-wrap label{margin:0;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:8px}
+label{font-weight:800;display:block;margin:10px 0 5px}input,select,textarea{width:100%;padding:12px;border:2px solid #ead9d1;border-radius:13px;background:#fff}textarea{min-height:80px}.two{display:grid;grid-template-columns:1fr 1fr;gap:15px}.total{display:flex;justify-content:space-between;align-items:center;font-size:23px;font-weight:900;padding:15px;background:#fff4d8;border-radius:18px;margin-top:18px}.admin{display:none}.admin.show{display:block}.order{border:2px solid #ead9d1;border-radius:18px;padding:15px;margin:12px 0;background:#fff}.status{display:inline-block;padding:6px 10px;border-radius:999px;background:#fff0c7;font-weight:900}.order button{border:0;border-radius:10px;padding:8px;margin:4px;cursor:pointer;background:#f3edf0}.order button.active{background:var(--green);color:#173d20}
+.badge-extra{background:#ff477e;color:white;padding:3px 8px;border-radius:8px;font-size:11px;font-weight:800;margin-left:4px;display:inline-block}
+.badge-filled{background:#69b9df;color:white;padding:3px 8px;border-radius:8px;font-size:11px;font-weight:800;margin-left:4px;display:inline-block}
+footer{text-align:center;padding:35px 10px;color:#806d64}.hide{display:none}@media(max-width:760px){.grid,.two{grid-template-columns:1fr}.hero{padding-top:25px}header{position:relative}.brand{font-size:19px}nav{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<div class="brand">KISS <span>GLAZED</span><br><small>MINI DONITAS</small></div>
+<nav><button type="button" onclick="go('pedido')">Hacer pedido</button><button type="button" onclick="openAdmin()">Admin 🔐</button></nav>
+</header>
+
+<section class="hero">
+<div class="pill">♡ Hechas con amor</div>
+<h1>Pequeñas<br><em>donas,</em><br>enorme <strong>antojo!</strong></h1>
+<p>Cajita de <b>6 mini donitas</b> · Desde <b>$7.000</b><br>Elige tus salsas y toppings y arma cada cajita a tu gusto.</p>
+<button type="button" class="cta" onclick="go('pedido')">QUIERO HACER MI PEDIDO →</button>
+</section>
+
+<section id="pedido" class="card">
+<h2 class="section-title">🍩 Arma tu pedido</h2>
+<div class="boxes"><b>Cantidad de cajitas:</b><div class="counter"><button type="button" onclick="changeBoxes(-1)">−</button><b id="boxCount">1</b><button type="button" onclick="changeBoxes(1)">+</button></div></div>
+<div id="boxes"></div>
+
+<div class="card" style="background:#fffaf5">
+<h3>📍 Entrega</h3>
+<div class="two">
+<div><label>Nombre *</label><input id="name" placeholder="Tu nombre"></div>
+<div><label>Teléfono *</label><input id="phone" placeholder="Tu número"></div>
+</div>
+<label>Día de entrega *</label><input id="day" type="date">
+<label>Hora</label><select id="time"><option>9:00 a. m. – 11:00 a. m.</option><option>11:00 a. m. – 1:00 p. m.</option><option>1:00 p. m. – 3:00 p. m.</option><option>3:00 p. m. – 5:00 p. m.</option><option>5:00 p. m. – 7:00 p. m.</option></select>
+<div class="two">
+<div>
+  <label>Forma de recibir *</label>
+  <select id="delivery" onchange="toggleAddress()">
+    <option value="Domicilio">Domicilio</option>
+    <option value="Recogida en nuestro punto">Recogida en nuestro punto</option>
+    <option value="Colegio">Entrega en Colegio</option>
+  </select>
+</div>
+<div><label>Forma de pago *</label><select id="payment"><option>Nequi</option><option>Efectivo</option></select></div>
+</div>
+<div id="addressWrap"><label>Dirección completa *</label><input id="address" placeholder="Calle, carrera, número, barrio..."></div>
+<div id="schoolWrap" style="display:none;"><label>Nombre del colegio y curso/grado *</label><input id="schoolInfo" placeholder="Ej. Colegio San José - Grado 5°B"></div>
+
+<label>Comentarios generales</label><textarea id="comments" placeholder="Ej. dejar en portería, alguna indicación general..."></textarea>
+<div class="total"><span>Total</span><span id="total">$7.000</span></div>
+<button type="button" id="btnSubmit" class="cta" style="width:100%;margin-top:15px" onclick="submitOrder()">CONFIRMAR PEDIDO Y ENVIAR POR WHATSAPP 💗</button>
+</div>
+</section>
+
+<section id="admin" class="card admin">
+<h2 class="section-title">🔐 Panel del Administrador</h2>
+<p class="small">Lista de pedidos sincronizada desde tu Google Sheets.</p>
+<button type="button" onclick="loadCloudOrders()" style="padding:8px 15px;border-radius:10px;background:var(--blue);color:#fff;border:0;font-weight:800;cursor:pointer;margin-bottom:15px;">🔄 Actualizar lista</button>
+<div id="orders">Cargando pedidos...</div>
+</section>
+
+<footer>KISS GLAZED MINI DONITAS · HANDMADE WITH LOVE ♡<br>WhatsApp: 315 050 7754</footer>
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPpKgy3pnUNBcjt1DaTKOvQGlriBfqzy0FQHlgvjT-kASttmC20AGdJIkdYz1fNWv2Qg/exec";
+const ADMIN_PIN = "donitas mini";
+
+const svgIcons = {
+  arequipe: `<svg viewBox="0 0 64 64"><path d="M12 28 C12 20, 52 20, 52 28 L48 54 C48 58, 16 58, 16 54 Z" fill="#D9822B"/><path d="M10 22 C10 18, 54 18, 54 22 L52 28 C52 24, 12 24, 12 28 Z" fill="#B36214"/><path d="M22 18 C22 12, 42 12, 42 18 Z" fill="#F5B041"/><path d="M24 34 Q 32 40 40 34" stroke="#FFF" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+  lecheCondensada: `<svg viewBox="0 0 64 64"><rect x="18" y="16" width="28" height="40" rx="6" fill="#FFF9E6" stroke="#E6C280" stroke-width="3"/><path d="M18 24 L46 24 L46 36 L18 36 Z" fill="#FFEAA7"/><ellipse cx="32" cy="14" rx="10" ry="4" fill="#E6C280"/><path d="M28 30 Q32 34 36 30" stroke="#D4AC0D" stroke-width="2" fill="none"/></svg>`,
+  chocolate: `<svg viewBox="0 0 64 64"><path d="M16 20 C16 14, 48 14, 48 20 L44 54 C44 58, 20 58, 20 54 Z" fill="#4A235A"/><path d="M16 20 C22 26, 26 18, 32 24 C38 18, 42 26, 48 20 L46 30 C40 34, 36 28, 32 32 C28 28, 24 34, 18 30 Z" fill="#6C3483"/><circle cx="32" cy="42" r="6" fill="#A569BD"/></svg>`,
+  mora: `<svg viewBox="0 0 64 64"><path d="M20 22 C20 16, 44 16, 44 22 L40 52 C40 56, 24 56, 24 52 Z" fill="#6C1D45"/><circle cx="26" cy="30" r="4" fill="#8E245C"/><circle cx="34" cy="30" r="4" fill="#8E245C"/><circle cx="30" cy="36" r="4.5" fill="#8E245C"/><circle cx="38" cy="36" r="4" fill="#8E245C"/><circle cx="28" cy="43" r="4" fill="#8E245C"/><circle cx="34" cy="43" r="4" fill="#8E245C"/></svg>`,
+  mym: `<svg viewBox="0 0 64 64"><circle cx="24" cy="26" r="12" fill="#E74C3C"/><text x="24" y="30" font-weight="900" font-size="10" fill="#FFF" text-anchor="middle">m</text><circle cx="40" cy="38" r="12" fill="#F1C40F"/><text x="40" y="42" font-weight="900" font-size="10" fill="#FFF" text-anchor="middle">m</text><circle cx="22" cy="44" r="10" fill="#3498DB"/><text x="22" y="48" font-weight="900" font-size="9" fill="#FFF" text-anchor="middle">m</text></svg>`,
+  oreo: `<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="22" fill="#2C3E50"/><circle cx="32" cy="32" r="17" fill="#ECF0F1"/><circle cx="32" cy="32" r="14" fill="#1A252F"/><path d="M24 24 L40 40 M40 24 L24 40 M20 32 L44 32" stroke="#2C3E50" stroke-width="2"/></svg>`,
+  mani: `<svg viewBox="0 0 64 64"><path d="M22 20 C14 20, 14 36, 22 38 C14 40, 14 54, 24 54 C34 54, 32 40, 26 38 C34 36, 32 20, 22 20 Z" fill="#F39C12" stroke="#D68910" stroke-width="2"/><path d="M42 14 C34 14, 34 30, 42 32 C34 34, 34 48, 44 48 C54 48, 52 34, 46 32 C54 30, 52 14, 42 14 Z" fill="#E59866" stroke="#BA4A00" stroke-width="2"/></svg>`,
+  gomitas: `<svg viewBox="0 0 64 64"><path d="M24 16 C20 16, 18 22, 22 26 C18 28, 18 40, 22 44 L20 54 L28 54 L28 48 L36 48 L36 54 L44 54 L42 44 C46 40, 46 28, 42 26 C46 22, 44 16, 40 16 C36 16, 34 20, 28 16 Z" fill="#2ECC71"/><circle cx="27" cy="24" r="2" fill="#1E8449"/><circle cx="37" cy="24" r="2" fill="#1E8449"/></svg>`,
+  chips: `<svg viewBox="0 0 64 64"><path d="M28 18 Q34 12 40 22 Q46 32 32 44 Q18 32 28 18 Z" fill="#4A235A"/><path d="M18 36 Q22 30 26 38 Q30 46 20 52 Q12 44 18 36 Z" fill="#5B2C6F"/><path d="M42 34 Q46 28 50 36 Q54 44 44 50 Q36 42 42 34 Z" fill="#341539"/></svg>`,
+  pepitas: `<svg viewBox="0 0 64 64"><rect x="16" y="20" width="12" height="6" rx="3" fill="#E74C3C" transform="rotate(15 16 20)"/><rect x="36" y="16" width="12" height="6" rx="3" fill="#F1C40F" transform="rotate(-30 36 16)"/><rect x="24" y="38" width="12" height="6" rx="3" fill="#3498DB" transform="rotate(45 24 38)"/><rect x="44" y="36" width="12" height="6" rx="3" fill="#9B59B6" transform="rotate(-15 44 36)"/><rect x="20" y="50" width="12" height="6" rx="3" fill="#2ECC71" transform="rotate(60 20 50)"/></svg>`
+};
+
+const toppings=[{name:"M&M",icon:svgIcons.mym},{name:"Oreo triturado",icon:svgIcons.oreo},{name:"Maní triturado",icon:svgIcons.mani},{name:"Gomitas de ositos",icon:svgIcons.gomitas},{name:"Chips de chocolate",icon:svgIcons.chips},{name:"Pepitas de colores",icon:svgIcons.pepitas}];
+const sauces=[{name:"Arequipe",icon:svgIcons.arequipe},{name:"Leche condensada",icon:svgIcons.lecheCondensada},{name:"Chocolate",icon:svgIcons.chocolate},{name:"Mora",icon:svgIcons.mora}];
+
+let boxes=1;
+let boxData=[newBox()];
+
+function newBox(){
+  return {sauces:Object.fromEntries(sauces.map(x=>[x.name,0])),toppings:Object.fromEntries(toppings.map(x=>[x.name,0])),allowExtra:false,isFilled:false,notes:""};
+}
+function money(n){return "$"+Number(n).toLocaleString("es-CO");}
+function go(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:"smooth"});
+}
+
+function openAdmin(){
+  const pin = prompt("Ingresa la clave de administrador:");
+  if(pin === ADMIN_PIN){
+    document.querySelector(".admin").classList.add("show");
+    go("admin");
+    loadCloudOrders();
+  } else if(pin !== null){
+    alert("Clave incorrecta");
+  }
+}
+
+function changeBoxes(n){
+  const next=Math.max(1,Math.min(12,boxes+n));
+  if(next===boxes)return;
+  while(boxData.length<next) boxData.push(newBox());
+  if(next<boxData.length) boxData=boxData.slice(0,next);
+  boxes=next;
+  document.getElementById("boxCount").textContent=boxes;
+  renderBoxes();
+}
+function totalSelected(obj){return Object.values(obj).reduce((a,b)=>a+b,0);}
+function usedTypesCount(obj){return Object.values(obj).filter(x=>x>0).length;}
+
+function getBoxPrice(box){
+  let base = 7000;
+  if(box.allowExtra) base += 1000;
+  if(box.isFilled) base += 1000;
+  return base;
+}
+
+function renderBoxes(){
+  const root=document.getElementById("boxes");
+  root.innerHTML="";
+  boxData.forEach((box,b)=>{
+    const boxPrice = getBoxPrice(box);
+    
+    let badgesHtml = "";
+    if(box.allowExtra) badgesHtml += '<span class="badge-extra">Extra (+$1.000)</span>';
+    if(box.isFilled) badgesHtml += '<span class="badge-filled">Rellenas (+$1.000)</span>';
+
+    const el=document.createElement("div");
+    el.className="box";
+    el.innerHTML=`
+    <h3>
+      <span>🍩 Cajita #${b+1} <span class="small">· 6 mini donitas</span></span>
+      <span class="box-price-tag">${money(boxPrice)} ${badgesHtml}</span>
+    </h3>
+    <div class="extra-toggle-wrap">
+      <label><input type="checkbox" ${box.allowExtra?'checked':''} onchange="toggleExtra(${b}, this.checked)"><b>✨ Habilitar opción de variedad Extra (+$1.000)</b></label>
+      <label><input type="checkbox" ${box.isFilled?'checked':''} onchange="toggleFilled(${b}, this.checked)"><b>🍩 ¿Quieres que tus mini donitas sean RELLENAS? (+$1.000)</b></label>
+    </div>
+    <div class="grid">
+      <div><b>🥣 Salsas ${box.isFilled?'(Servirá también como relleno)':''}</b><div class="choices" id="sauce-${b}"></div><div class="small" style="margin-top:6px" id="sauce-total-${b}"></div></div>
+      <div><b>✨ Toppings</b><div class="choices" id="topping-${b}"></div><div class="small" style="margin-top:6px" id="topping-total-${b}"></div></div>
+    </div>
+    <div style="margin-top:14px">
+      <label class="small">📝 Notas para esta cajita:</label>
+      <input id="notes-${b}" placeholder="Ej. 3 de chocolate y 3 de arequipe..." value="${box.notes||''}" onchange="boxData[${b}].notes=this.value">
+    </div>`;
+    root.appendChild(el);
+    renderChoices(b,"sauce",sauces,box.sauces);
+    renderChoices(b,"topping",toppings,box.toppings);
+    updateBoxTotals(b);
+  });
+  updateTotal();
+}
+
+function toggleExtra(b, isChecked){boxData[b].allowExtra = isChecked; renderBoxes();}
+function toggleFilled(b, isChecked){boxData[b].isFilled = isChecked; renderBoxes();}
+
+function renderChoices(b,type,list,values){
+  const root=document.getElementById(`${type}-${b}`);
+  list.forEach(item=>{
+    const count = values[item.name]||0;
+    const row=document.createElement("div");
+    row.className=`choice ${count>0?'selected':''}`;
+    row.onclick=(e)=>{if(!e.target.matches('button')){changeQty(b,type,item.name,1);}};
+    row.innerHTML=`
+      <div class="choice-img">${item.icon}</div>
+      <div class="choice-name">${item.name}</div>
+      <div class="qtyrow">
+        <button type="button" onclick="event.stopPropagation();changeQty(${b},'${type}','${item.name}',-1)">−</button>
+        <b class="qty">${count}</b>
+        <button type="button" onclick="event.stopPropagation();changeQty(${b},'${type}','${item.name}',1)">+</button>
+      </div>`;
+    root.appendChild(row);
+  });
+}
+
+function changeQty(b,type,name,delta){
+  const box = boxData[b];
+  const target = type==="sauce" ? box.sauces : box.toppings;
+  const current = target[name]||0;
+  const total = totalSelected(target);
+  
+  if(delta > 0){
+    if(total >= 6){ alert("Máximo 6 mini donitas por caja."); return; }
+    if(!box.allowExtra && current === 0 && usedTypesCount(target) >= 2){
+      if(confirm("¿Deseas activar la Variedad Extra (+ $1.000) para elegir más opciones?")){
+        box.allowExtra = true;
+      } else return;
+    }
+  }
+  target[name] = Math.max(0, current + delta);
+  renderBoxes();
+}
+
+function updateBoxTotals(b){
+  document.getElementById(`sauce-total-${b}`).textContent=`Salsas: ${totalSelected(boxData[b].sauces)}/6`;
+  document.getElementById(`topping-total-${b}`).textContent=`Toppings: ${totalSelected(boxData[b].toppings)}/6`;
+}
+
+function updateTotal(){
+  let grandTotal=0; boxData.forEach(box=>{ grandTotal += getBoxPrice(box); });
+  document.getElementById("total").textContent=money(grandTotal);
+}
+
+function toggleAddress(){
+  const val = document.getElementById("delivery").value;
+  document.getElementById("addressWrap").style.display = (val === "Domicilio") ? "block" : "none";
+  document.getElementById("schoolWrap").style.display = (val === "Colegio") ? "block" : "none";
+}
+
+async function submitOrder(){
+  const name=document.getElementById("name").value.trim();
+  const phone=document.getElementById("phone").value.trim();
+  const day=document.getElementById("day").value;
+  const delivery=document.getElementById("delivery").value;
+  const address=document.getElementById("address").value.trim();
+  const schoolInfo=document.getElementById("schoolInfo").value.trim();
+
+  if(!name||!phone||!day){ alert("Completa los campos obligatorios (*)"); return; }
+  if(delivery==="Domicilio" && !address){ alert("Escribe la dirección."); return; }
+  if(delivery==="Colegio" && !schoolInfo){ alert("Escribe el colegio y curso."); return; }
+
+  for(let b=0;b<boxes;b++){
+    if(totalSelected(boxData[b].sauces)!==6 || totalSelected(boxData[b].toppings)!==6){
+      alert(`Revisa la cajita #${b+1}: debes repartir 6 salsas y 6 toppings.`); return;
+    }
+  }
+
+  let totalCalculated = 0;
+  let detailArr = [];
+  boxData.forEach((x,i)=>{
+    const boxPrice = getBoxPrice(x);
+    totalCalculated += boxPrice;
+    const s = Object.entries(x.sauces).filter(([,q])=>q>0).map(([n,q])=>`${n} x${q}`).join(",");
+    const t = Object.entries(x.toppings).filter(([,q])=>q>0).map(([n,q])=>`${n} x${q}`).join(",");
+    
+    let extraTag = [];
+    if(x.allowExtra) extraTag.push("Extra Toppings");
+    if(x.isFilled) extraTag.push("RELLENAS");
+    const tagsStr = extraTag.length > 0 ? ` [${extraTag.join(" + ")}]` : '';
+
+    detailArr.push(`Caja ${i+1}${tagsStr}: [Salsas: ${s}] [Toppings: ${t}] ${x.notes?'('+x.notes+')':''}`);
+  });
+
+  const orderId = "K-" + Math.floor(1000 + Math.random() * 9000);
+  const dirInfo = delivery==="Domicilio"?address:(delivery==="Colegio"?schoolInfo:"N/A");
+
+  const btn = document.getElementById("btnSubmit");
+  btn.disabled = true;
+  btn.textContent = "Guardando pedido...";
+
+  // Guardar en Google Sheets
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        id: orderId,
+        fecha: day + " " + document.getElementById("time").value,
+        cliente: name,
+        telefono: phone,
+        entrega: delivery,
+        direccion: dirInfo,
+        detalle: detailArr.join(" | "),
+        total: totalCalculated,
+        pago: document.getElementById("payment").value,
+        estado: "Pendiente"
+      })
+    });
+  } catch(e) {
+    console.error("Error en nube: ", e);
+  }
+
+  // Crear texto WhatsApp
+  const lines=[`🍩 *KISS GLAZED — PEDIDO #${orderId}*`,``,`👤 ${name}`,`📞 ${phone}`,`📅 ${day}`,`📍 ${delivery}`];
+  if(dirInfo!=="N/A") lines.push(`🏠 ${dirInfo}`);
+  lines.push(`💳 ${document.getElementById("payment").value}`,"");
+  detailArr.forEach(d=>lines.push(d));
+  lines.push("",`💰 *TOTAL: ${money(totalCalculated)}*`);
+
+  window.open("https://wa.me/573150507754?text="+encodeURIComponent(lines.join("\n")),"_blank");
+  
+  btn.disabled = false;
+  btn.textContent = "CONFIRMAR PEDIDO Y ENVIAR POR WHATSAPP 💗";
+  alert("¡Pedido realizado con éxito!");
+}
+
+async function loadCloudOrders(){
+  const root = document.getElementById("orders");
+  root.innerHTML = "Cargando pedidos de la nube...";
+  try {
+    const res = await fetch(SCRIPT_URL);
+    const data = await res.json();
+    if(!data.length){ root.innerHTML="No hay pedidos aún."; return; }
+    
+    root.innerHTML = data.reverse().map(o => `
+      <div class="order">
+        <b>Pedido #${o.ID}</b> - <span class="status">${o.Estado || 'Pendiente'}</span>
+        <p><b>${o.Cliente}</b> (${o.Telefono})<br>
+        📅 ${o.Fecha} | 📍 ${o.Entrega} (${o.Direccion_Colegio})<br>
+        💳 ${o.Pago} | <b>Total: ${money(o.Total)}</b></p>
+        <p class="small"><b>Detalle:</b> ${o.Detalle}</p>
+      </div>
+    `).join("");
+  } catch(e) {
+    root.innerHTML = "Error cargando pedidos. Asegúrate de actualizar la hoja de cálculo.";
+  }
+}
+
+renderBoxes();
+toggleAddress();
+</script>
+</body>
+</html>
